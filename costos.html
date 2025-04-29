@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Detallado de Costos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+        .cost-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .cost-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .cost-table th, .cost-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .cost-table th {
+            background-color: #f2f2f2;
+        }
+        .cost-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        .summary-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .summary-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .chart-container {
+            margin-top: 30px;
+            height: 300px;
+        }
+        .nav-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .interpretacion-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .interpretacion-detallada h3 {
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .interpretacion-detallada ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        .interpretacion-detallada li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .interpretacion-detallada li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: -15px;
+        }
+        
+        .chart-container {
+            margin-bottom: 30px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-buttons">
+            <button class="btn" onclick="window.location.href='index.html'">Ir al Simulador Principal</button>
+        </div>
+        
+        <h1>Análisis Detallado de Costos</h1>
+        
+        <div class="cost-section">
+            <h2>Costos Directos</h2>
+            <button class="btn" onclick="agregarFila('directos')">Agregar Costo Directo</button>
+            <table class="cost-table" id="tabla-directos">
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Monto Mensual (S/)</th>
+                        <th>Frecuencia</th>
+                        <th>Departamento</th>
+                        <th>Responsable</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="5">Total Costos Directos</th>
+                        <th id="total-directos">S/0.00</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="cost-section">
+            <h2>Costos Indirectos</h2>
+            <button class="btn" onclick="agregarFila('indirectos')">Agregar Costo Indirecto</button>
+            <table class="cost-table" id="tabla-indirectos">
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Monto Mensual (S/)</th>
+                        <th>Frecuencia</th>
+                        <th>Departamento</th>
+                        <th>Responsable</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="5">Total Costos Indirectos</th>
+                        <th id="total-indirectos">S/0.00</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="cost-section">
+            <h2>Costos Fijos</h2>
+            <button class="btn" onclick="agregarFila('fijos')">Agregar Costo Fijo</button>
+            <table class="cost-table" id="tabla-fijos">
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Monto Mensual (S/)</th>
+                        <th>Frecuencia</th>
+                        <th>Departamento</th>
+                        <th>Responsable</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="5">Total Costos Fijos</th>
+                        <th id="total-fijos">S/0.00</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="cost-section">
+            <h2>Costos Variables</h2>
+            <button class="btn" onclick="agregarFila('variables')">Agregar Costo Variable</button>
+            <table class="cost-table" id="tabla-variables">
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Monto Mensual (S/)</th>
+                        <th>Frecuencia</th>
+                        <th>Departamento</th>
+                        <th>Responsable</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="5">Total Costos Variables</th>
+                        <th id="total-variables">S/0.00</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="summary-section">
+            <h2>Resumen de Costos</h2>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>Costos Directos</h3>
+                    <div class="summary-value" id="resumen-directos">S/0.00</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Costos Indirectos</h3>
+                    <div class="summary-value" id="resumen-indirectos">S/0.00</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Costos Fijos</h3>
+                    <div class="summary-value" id="resumen-fijos">S/0.00</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Costos Variables</h3>
+                    <div class="summary-value" id="resumen-variables">S/0.00</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Costos Mensuales</h3>
+                    <div class="summary-value" id="resumen-total">S/0.00</div>
+                </div>
+            </div>
+            
+            <h3>Distribución de Costos</h3>
+            <div class="chart-container">
+                <canvas id="costosChart"></canvas>
+            </div>
+            
+            <h3>Comparación de Costos</h3>
+            <div class="chart-container">
+                <canvas id="costosBarrasChart"></canvas>
+            </div>
+            
+            <div id="interpretacion-costos" class="interpretacion-section">
+                <!-- Aquí se insertarán las interpretaciones dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="costos.js"></script>
+</body>
+</html> 
